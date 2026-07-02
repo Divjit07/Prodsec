@@ -1,33 +1,61 @@
 import { useEffect } from "react";
-
-const SITE_NAME = "Productive Security Inc.";
+import { defaultOgImage, siteName, siteUrl } from "../data/site";
 
 type SeoProps = {
   title: string;
   description: string;
   path?: string;
+  image?: string;
+  noIndex?: boolean;
 };
 
-export function SeoHead({ title, description, path = "" }: SeoProps) {
+function upsertMeta(selector: string, attr: "name" | "property", name: string, content: string) {
+  let el = document.querySelector<HTMLMetaElement>(selector);
+  if (!el) {
+    el = document.createElement("meta");
+    el.setAttribute(attr, name);
+    document.head.appendChild(el);
+  }
+  el.setAttribute("content", content);
+}
+
+function upsertLink(rel: string, href: string) {
+  let el = document.querySelector<HTMLLinkElement>(`link[rel="${rel}"]`);
+  if (!el) {
+    el = document.createElement("link");
+    el.rel = rel;
+    document.head.appendChild(el);
+  }
+  el.href = href;
+}
+
+export function SeoHead({ title, description, path = "", image, noIndex = false }: SeoProps) {
   useEffect(() => {
-    document.title = `${title} | ${SITE_NAME}`;
+    const fullTitle = `${title} | ${siteName}`;
     const desc = description.slice(0, 320);
-    const setMeta = (name: string, attr: "name" | "property", content: string) => {
-      let el = document.querySelector(`meta[${attr}="${name}"]`);
-      if (!el) {
-        el = document.createElement("meta");
-        el.setAttribute(attr, name);
-        document.head.appendChild(el);
-      }
-      el.setAttribute("content", content);
-    };
-    setMeta("description", "name", desc);
-    setMeta("og:title", "property", `${title} | ${SITE_NAME}`);
-    setMeta("og:description", "property", desc);
-    setMeta("og:type", "property", "website");
-    const base = (import.meta.env.VITE_SITE_URL || "https://prodsec.ca").replace(/\/$/, "");
-    setMeta("og:url", "property", `${base}${path || "/"}`);
-  }, [title, description, path]);
+    const url = `${siteUrl}${path || "/"}`;
+    const ogImage = image || defaultOgImage;
+
+    document.title = fullTitle;
+
+    upsertMeta('meta[name="description"]', "name", "description", desc);
+    upsertMeta('meta[name="robots"]', "name", "robots", noIndex ? "noindex, nofollow" : "index, follow");
+
+    upsertMeta('meta[property="og:title"]', "property", "og:title", fullTitle);
+    upsertMeta('meta[property="og:description"]', "property", "og:description", desc);
+    upsertMeta('meta[property="og:type"]', "property", "og:type", "website");
+    upsertMeta('meta[property="og:url"]', "property", "og:url", url);
+    upsertMeta('meta[property="og:image"]', "property", "og:image", ogImage);
+    upsertMeta('meta[property="og:site_name"]', "property", "og:site_name", siteName);
+    upsertMeta('meta[property="og:locale"]', "property", "og:locale", "en_CA");
+
+    upsertMeta('meta[name="twitter:card"]', "name", "twitter:card", "summary_large_image");
+    upsertMeta('meta[name="twitter:title"]', "name", "twitter:title", fullTitle);
+    upsertMeta('meta[name="twitter:description"]', "name", "twitter:description", desc);
+    upsertMeta('meta[name="twitter:image"]', "name", "twitter:image", ogImage);
+
+    upsertLink("canonical", url);
+  }, [title, description, path, image, noIndex]);
 
   return null;
 }

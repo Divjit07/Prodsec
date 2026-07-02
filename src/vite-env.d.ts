@@ -1,8 +1,9 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_WEB3FORMS_ACCESS_KEY: string | undefined;
-  readonly VITE_SITE_URL: string | undefined;
+  readonly VITE_SITE_URL?: string;
+  readonly VITE_SUPABASE_URL?: string;
+  readonly VITE_SUPABASE_ANON_KEY?: string;
 }
 
 interface ImportMeta {

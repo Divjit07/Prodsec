@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { SeoHead } from "../components/SeoHead";
 import { Container } from "../components/Container";
 import { Reveal } from "../components/Reveal";
-import { submitWeb3Form } from "../lib/web3forms";
+import { submitInquiry } from "../lib/submitInquiry";
 
 type Values = {
   company: string;
@@ -74,13 +74,22 @@ export default function Quote() {
     ].join("\n");
 
     try {
-      await submitWeb3Form({
-        subject: `Quote request — ${values.company || values.contactName}`,
+      await submitInquiry({
+        type: "quote",
         name: values.contactName,
-        from_name: values.contactName,
         email: values.email,
         phone: values.phone,
+        subject: `Quote request — ${values.company || values.contactName}`,
         message,
+        payload: {
+          company: values.company,
+          propertyType: values.propertyType,
+          locations: values.locations,
+          sqft: values.sqft,
+          startDate: values.startDate,
+          services,
+          notes: values.notes,
+        },
       });
       setStatus("sent");
       form.reset();

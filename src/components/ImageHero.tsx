@@ -39,9 +39,9 @@ export function ImageHero({
 
       <section className="border-b border-white/10 dot-bg bg-brand-surface">
         <Container className="px-4 py-12 sm:px-6 sm:py-16">
-          <header className="max-w-3xl">
+          <header>
             <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-muted">{eyebrow}</p>
-            <h1 className="mt-4 text-balance font-display text-[1.75rem] leading-[1.12] tracking-[0.02em] text-white sm:text-4xl sm:leading-[1.1] lg:text-5xl lg:leading-[1.08]">
+            <h1 className="mt-4 font-display text-[1.75rem] leading-tight tracking-[0.02em] text-white sm:text-4xl lg:text-[2.75rem] lg:leading-tight xl:text-5xl xl:whitespace-nowrap">
               {title}
             </h1>
           </header>

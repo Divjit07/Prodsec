@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { SeoHead } from "../components/SeoHead";
 import { Container } from "../components/Container";
 import { Reveal } from "../components/Reveal";
-import { submitWeb3Form } from "../lib/web3forms";
+import { submitInquiry } from "../lib/submitInquiry";
 
 type Values = { name: string; email: string; phone: string; topic: string; message: string };
 
@@ -18,13 +18,14 @@ export default function Contact() {
     setStatus("sending");
     setErrorMsg(null);
     try {
-      await submitWeb3Form({
-        subject: `Website inquiry: ${values.topic}`,
+      await submitInquiry({
+        type: "contact",
         name: values.name,
-        from_name: values.name,
         email: values.email,
         phone: values.phone,
-        message: `${values.message}\n\nTopic: ${values.topic}`,
+        subject: `Website inquiry: ${values.topic}`,
+        message: values.message,
+        payload: { topic: values.topic },
       });
       setStatus("sent");
       form.reset();
@@ -46,7 +47,7 @@ export default function Contact() {
         <h1 className="mt-2 font-display text-4xl text-white sm:text-5xl">Let’s talk</h1>
         <p className="mt-4 max-w-2xl text-sm text-brand-muted">
           For urgent security concerns, call <span className="text-white">416.535.9341</span>. For general inquiries,
-          use the form—messages route to <span className="text-white">info@prodsec.ca</span> when Web3Forms is configured.
+          use the form—we&apos;ll respond within one business day.
         </p>
 
         <div className="mt-10 grid gap-10 lg:grid-cols-12">

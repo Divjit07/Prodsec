@@ -20,7 +20,6 @@ const Contact = lazy(() => import("./pages/Contact"));
 const Quote = lazy(() => import("./pages/Quote"));
 const Blog = lazy(() => import("./pages/Blog"));
 const BlogPost = lazy(() => import("./pages/BlogPost"));
-const ClientPortal = lazy(() => import("./pages/ClientPortal"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 export default function App() {
@@ -47,7 +46,6 @@ export default function App() {
           <Route path="quote" element={<Quote />} />
           <Route path="blog" element={<Blog />} />
           <Route path="blog/:slug" element={<BlogPost />} />
-          <Route path="client-portal" element={<ClientPortal />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>

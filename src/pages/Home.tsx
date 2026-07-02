@@ -7,14 +7,12 @@ import { Reveal } from "../components/Reveal";
 import { StatCounter } from "../components/StatCounter";
 import { services } from "../data/services";
 import { brandImages } from "../data/brandAssets";
+import { siteUrl } from "../data/site";
 
 const heroWords = ["Licensed professionals", "Supervised field teams", "Executive-ready reporting"];
 
-/** Local file: `public/media/landing-hero.mp4` (replace by copying from `Landing page/Landing page.mp4` or drop a new MP4 here). */
 const HERO_VIDEO_SRC = `${import.meta.env.BASE_URL}media/landing-hero.mp4`;
-
-const HERO_POSTER =
-  "https://images.unsplash.com/photo-1517935706615-2717063c2225?auto=format&fit=crop&w=1920&q=70";
+const HERO_POSTER = brandImages.guard;
 
 export default function Home() {
   const reduceMotion = useReducedMotion();
@@ -24,7 +22,7 @@ export default function Home() {
       "@context": "https://schema.org",
       "@type": "SecurityService",
       name: "Productive Security Inc.",
-      url: "https://prodsec.ca/",
+      url: `${siteUrl}/`,
       telephone: "+1-416-535-9341",
       areaServed: "Ontario, CA",
       address: {
@@ -375,7 +373,7 @@ export default function Home() {
                   ))}
                 </div>
                 <p className="mt-4 text-xs text-brand-muted">
-                  Logos are illustrative placeholders—swap in your real client marks when permitted.
+                  Programs tailored to each sector&apos;s risk profile, traffic patterns, and operating hours.
                 </p>
               </div>
             </Reveal>

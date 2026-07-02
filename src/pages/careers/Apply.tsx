@@ -4,7 +4,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { SeoHead } from "../../components/SeoHead";
 import { Container } from "../../components/Container";
-import { submitWeb3Form } from "../../lib/web3forms";
+import { submitInquiry } from "../../lib/submitInquiry";
 
 type FormValues = {
   role: string;
@@ -119,12 +119,25 @@ export default function Apply() {
     ].join("\n");
 
     try {
-      await submitWeb3Form({
-        subject: `Careers application: ${values.role}`,
+      await submitInquiry({
+        type: "career",
         name: values.fullName,
-        from_name: values.fullName,
         email: values.email,
+        phone: values.phone,
+        subject: `Careers application: ${values.role}`,
         message,
+        payload: {
+          role: values.role,
+          address: values.address,
+          resumeLink: values.resumeLink,
+          grade12: values.grade12,
+          firstAid: values.firstAid,
+          drivers: values.drivers,
+          bondable: values.bondable,
+          secLicense: values.secLicense,
+          experienceYears: values.experienceYears,
+          shifts,
+        },
       });
       setStatus("sent");
     } catch (e) {
@@ -344,8 +357,7 @@ export default function Apply() {
             </div>
 
             <p className="mt-4 text-xs text-brand-muted">
-              Tip: Web3Forms free tier delivers submissions to your inbox. Add <code className="text-brand-text">VITE_WEB3FORMS_ACCESS_KEY</code>{" "}
-              in <code className="text-brand-text">.env</code> (see <code className="text-brand-text">.env.example</code>).
+              Submissions are stored securely and your team is notified by email. Allow one business day for follow-up.
             </p>
           </form>
         </div>

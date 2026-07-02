@@ -5,7 +5,12 @@ import { Container } from "../components/Container";
 export default function NotFound() {
   return (
     <>
-      <SeoHead title="Page not found" description="The page you requested could not be found." path="/404" />
+      <SeoHead
+        title="Page not found"
+        description="The page you requested could not be found."
+        path="/404"
+        noIndex
+      />
       <Container className="py-20 text-center">
         <p className="font-mono text-xs text-brand-yellow">404</p>
         <h1 className="mt-3 font-display text-5xl text-white">Lost on patrol</h1>

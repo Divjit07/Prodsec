@@ -11,7 +11,6 @@ export const headerFlatLinks: { label: string; to: string }[] = [
   { label: "Blog", to: "/blog" },
   { label: "Contact", to: "/contact" },
   { label: "Quote", to: "/quote" },
-  { label: "Client portal", to: "/client-portal" },
 ];
 
 export const ctaNav = { label: "Request a proposal", to: "/quote" };

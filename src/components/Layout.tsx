@@ -5,6 +5,7 @@ import { ctaNav, headerFlatLinks } from "../data/nav";
 import { services } from "../data/services";
 import { brandImages } from "../data/brandAssets";
 import { ChatWidget } from "./ChatWidget";
+import { ScrollToTop } from "./ScrollToTop";
 
 function navClass(isActive: boolean) {
   return [
@@ -34,6 +35,7 @@ export function Layout() {
 
   return (
     <div className="noise dot-canvas relative min-h-dvh text-brand-text">
+      <ScrollToTop />
       <a className="skip-link" href="#main">
         Skip to content
       </a>
@@ -88,7 +90,7 @@ export function Layout() {
         </div>
 
         <nav
-          className="mx-auto hidden max-w-7xl items-center gap-0.5 overflow-x-auto px-4 py-2 sm:px-6 lg:flex"
+          className="mx-auto hidden max-w-7xl flex-nowrap items-center gap-0.5 overflow-x-auto px-4 py-2 sm:px-6 lg:flex"
           aria-label="Primary"
         >
           {headerFlatLinks.map((item) => (
@@ -265,11 +267,6 @@ export function Layout() {
               <li>
                 <Link className="text-brand-muted hover:text-white" to="/blog">
                   Insights
-                </Link>
-              </li>
-              <li>
-                <Link className="text-brand-muted hover:text-white" to="/client-portal">
-                  Client portal
                 </Link>
               </li>
             </ul>
