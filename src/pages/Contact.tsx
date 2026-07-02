@@ -106,10 +106,10 @@ export default function Contact() {
                     </div>
                   </li>
                   <li>
-                    <span className="text-white">Naeem Khan</span> — IT Services
+                    <span className="text-white">Divjit Singh</span> — IT Support Technician
                     <div>
-                      <a className="hover:text-white" href="mailto:nkhan@prodsec.ca">
-                        nkhan@prodsec.ca
+                      <a className="hover:text-white" href="mailto:divjit@prodsec.ca">
+                        divjit@prodsec.ca
                       </a>
                     </div>
                   </li>
