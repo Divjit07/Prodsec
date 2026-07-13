@@ -1,4 +1,4 @@
-import { useState, type InputHTMLAttributes } from "react";
+import { forwardRef, useState, type InputHTMLAttributes } from "react";
 import { useForm } from "react-hook-form";
 import { SeoHead } from "../components/SeoHead";
 import { Container } from "../components/Container";
@@ -206,11 +206,15 @@ export default function Quote() {
 const inp =
   "mt-2 w-full rounded-xl border border-brand-border bg-brand-dark px-3 py-2 text-sm text-white focus:border-brand-yellow/45 focus:outline-none";
 
-function Toggle({ label, ...rest }: { label: string } & InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <label className="flex items-center gap-3 rounded-xl border border-brand-border bg-brand-dark px-3 py-2 text-sm text-white">
-      <input type="checkbox" className="h-4 w-4 accent-brand-yellow" {...rest} />
-      {label}
-    </label>
-  );
-}
+/** register() hands down a ref, so this has to forward it or react-hook-form never
+    gets a handle on the input. */
+const Toggle = forwardRef<HTMLInputElement, { label: string } & InputHTMLAttributes<HTMLInputElement>>(
+  function Toggle({ label, ...rest }, ref) {
+    return (
+      <label className="flex items-center gap-3 rounded-xl border border-brand-border bg-brand-dark px-3 py-2 text-sm text-white">
+        <input ref={ref} type="checkbox" className="h-4 w-4 accent-brand-yellow" {...rest} />
+        {label}
+      </label>
+    );
+  },
+);

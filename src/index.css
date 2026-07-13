@@ -3,61 +3,77 @@
 @tailwind utilities;
 
 :root {
-  /* Navy + white foundation (aligns with brand video) */
-  --color-navy-950: #050d1c;
-  --color-navy-900: #0a1a32;
-  --color-navy-800: #0f2444;
-  --color-navy-700: #153056;
-  --color-dark: #0a1a32;
-  --color-surface: #102542;
-  --color-surface-2: #163154;
-  --color-text: #f4f7fb;
-  --color-text-muted: #9eb4d1;
-  --color-border: rgba(255, 255, 255, 0.12);
-  /* Restrained metallic accent — use sparingly for CTAs and focus */
-  --color-primary: #c9ae6a;
-  --color-on-light: #0a1a32;
-  --color-success: #3ecf8e;
-  --color-danger: #e07070;
-  --ring: rgba(201, 174, 106, 0.45);
+  /* Near-monochrome navy. Depth comes from a handful of steps, not from pattern.
+     Stored as raw R G B channels so Tailwind's `/opacity` modifier resolves —
+     a bare `var(--x)` holding a hex makes Tailwind drop the utility silently. */
+  --ink-950: 7 12 21;
+  --ink-900: 11 18 32;
+  --ink-850: 14 22 38;
+  --ink-800: 19 29 48;
+  --ink-700: 27 39 64;
+
+  --text: 255 255 255;
+  --text-2: 196 205 219;
+  --muted: 132 147 167;
+
+  /* The single accent. Hairlines, eyebrow ticks, indices — never a fill. */
+  --accent: 201 174 106;
+
+  --success: 74 199 149;
+  --danger: 229 128 128;
+
+  --line: rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(255, 255, 255, 0.18);
+  --ring: rgba(255, 255, 255, 0.55);
 }
 
 html {
   scroll-behavior: smooth;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-  }
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  min-height: 100vh;
   margin: 0;
-  background-color: var(--color-dark);
+  min-height: 100dvh;
+  background-color: rgb(var(--ink-950));
+  color: rgb(var(--text));
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* Stitch-style dot grid: transparent holes in the gradient reveal each element’s own background-color. */
+/* Optical correction: at display sizes a heavy grotesk needs the tracking pulled
+   in, or the counters read loose and the title stops feeling solid. */
+.font-display {
+  font-synthesis-weight: none;
+}
+
+/* Stitch-style dot field. The dots are transparent holes punched in a gradient,
+   so each element's own background-color shows through them — put `.dot-bg` on a
+   surface and the surface keeps its colour while picking up the texture. */
 @layer utilities {
   .dot-bg {
-    background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
     background-size: 20px 20px;
+  }
+
+  /* Denser, quieter field for large panels that would otherwise get noisy. */
+  .dot-bg-soft {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  /* Dotted hairline — the Stitch separator. */
+  .rule-dotted {
+    height: 1px;
+    background-image: radial-gradient(rgba(255, 255, 255, 0.28) 1px, transparent 1px);
+    background-size: 6px 1px;
   }
 }
 
-/* App shell: fixed attachment so the field reads “deep” behind scrolling content. */
+/* App shell: fixed attachment so the field reads "deep" behind scrolling content. */
 .dot-canvas {
-  min-height: 100dvh;
-  background-color: var(--color-dark);
-  background-image: radial-gradient(rgba(255, 255, 255, 0.16) 1px, transparent 1px);
+  background-color: rgb(var(--ink-950));
+  background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
   background-size: 20px 20px;
   background-attachment: fixed;
   background-position: 0 0;
@@ -70,13 +86,14 @@ body {
 }
 
 ::selection {
-  background: rgba(201, 174, 106, 0.35);
-  color: var(--color-on-light);
+  background: rgb(var(--text));
+  color: rgb(var(--ink-950));
 }
 
 :focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 3px;
+  border-radius: 2px;
 }
 
 .skip-link {
@@ -84,10 +101,10 @@ body {
   left: 0.75rem;
   top: 0.75rem;
   z-index: 100;
-  padding: 0.5rem 0.85rem;
-  border-radius: 0.5rem;
-  background: var(--color-text);
-  color: var(--color-on-light);
+  padding: 0.6rem 0.9rem;
+  border-radius: 0.375rem;
+  background: rgb(var(--text));
+  color: rgb(var(--ink-950));
   font-weight: 600;
   transform: translateY(-200%);
   transition: transform 0.2s ease;
@@ -97,31 +114,28 @@ body {
   transform: translateY(0);
 }
 
-.noise::before {
-  content: "";
-  pointer-events: none;
-  position: fixed;
-  inset: 0;
-  opacity: 0.028;
-  z-index: 50;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+/* A single hairline that fades at both ends — used to separate major bands. */
+.rule-fade {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--line-strong), transparent);
 }
 
-@keyframes hero-drift {
-  0% {
-    transform: scale(1);
+/* Google's embed has no dark theme. Invert + hue-rotate flips it to a dark map
+   while sending the hues back to roughly where they started, so parks stay green
+   and water stays blue. No grayscale — that is what drained the colour out. */
+.map-dark {
+  filter: invert(0.92) hue-rotate(180deg) brightness(0.95) contrast(0.95) saturate(1.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
-  100% {
-    transform: scale(1.06);
-  }
-}
-
-.hero-video {
-  transform-origin: center center;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .hero-video--drift {
-    animation: hero-drift 42s ease-in-out infinite alternate;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }

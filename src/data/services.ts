@@ -34,8 +34,7 @@ export const services: Service[] = [
       "Incident documentation with actionable follow-ups",
       "Escalation paths aligned with your building management",
     ],
-    image:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80",
+    image: brandImages.serviceCommercial,
   },
   {
     slug: "construction",
@@ -52,8 +51,7 @@ export const services: Service[] = [
       "Hazard awareness and safety-minded presence",
       "Daily logs tailored for GC reporting",
     ],
-    image:
-      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=80",
+    image: brandImages.serviceConstruction,
   },
   {
     slug: "apartment",
@@ -70,8 +68,7 @@ export const services: Service[] = [
       "Noise and disturbance mitigation support",
       "Emergency escalation aligned with corporation policies",
     ],
-    image:
-      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1600&q=80",
+    image: brandImages.serviceApartment,
   },
   {
     slug: "retail",
@@ -88,8 +85,7 @@ export const services: Service[] = [
       "Event weekends and seasonal peaks",
       "Clear reporting for operations review",
     ],
-    image:
-      "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=1600&q=80",
+    image: brandImages.serviceRetail,
   },
   {
     slug: "healthcare",
@@ -106,8 +102,7 @@ export const services: Service[] = [
       "Sensitive information handling awareness",
       "After-hours perimeter and interior patrols",
     ],
-    image:
-      "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1600&q=80",
+    image: brandImages.serviceHealthcare,
   },
   {
     slug: "special-events",

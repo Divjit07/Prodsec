@@ -106,14 +106,14 @@ export function ChatWidget() {
             role="dialog"
             aria-modal="true"
             aria-labelledby={titleId}
-            className="dot-bg flex h-[min(520px,calc(100dvh-7rem))] w-[min(100vw-2rem,380px)] flex-col overflow-hidden rounded-2xl border border-white/10 bg-brand-navy-800 shadow-lift max-sm:fixed max-sm:inset-3 max-sm:h-[calc(100dvh-1.5rem)] max-sm:w-auto"
+            className=" dot-bg flex h-[min(520px,calc(100dvh-7rem))] w-[min(100vw-2rem,380px)] flex-col overflow-hidden rounded-xl border border-white/10 bg-ink-850 shadow-lift max-sm:fixed max-sm:inset-3 max-sm:h-[calc(100dvh-1.5rem)] max-sm:w-auto"
           >
-            <div className="dot-bg flex items-center justify-between gap-2 border-b border-white/10 bg-brand-navy-950/60 px-4 py-3">
+            <div className=" flex items-center justify-between gap-2 border-b border-white/10 bg-ink-950/60 px-4 py-3">
               <div>
                 <div id={titleId} className="text-sm font-semibold text-white">
                   Productive Security Assistant
                 </div>
-                <div className="text-xs text-brand-muted">Answers instantly · No account required</div>
+                <div className="text-xs text-brand-muted">Routing help for services, careers, and proposals</div>
               </div>
               <div className="flex items-center gap-1">
                 <button
@@ -138,30 +138,30 @@ export function ChatWidget() {
                 <div
                   key={m.id}
                   className={[
-                    "max-w-[92%] rounded-2xl px-3 py-2 text-sm leading-relaxed",
+                    "max-w-[92%] rounded-xl px-3 py-2 text-sm leading-relaxed",
                     m.role === "user"
-                      ? "ml-auto bg-white text-brand-ink"
-                      : "mr-auto border border-white/10 bg-brand-navy-900/90 text-brand-text",
+                      ? "ml-auto bg-white text-ink-950"
+                      : "mr-auto border border-white/10 bg-ink-900 text-brand-text",
                   ].join(" ")}
                 >
                   {m.role === "assistant" ? renderText(m.text) : m.text}
                 </div>
               ))}
               {typing ? (
-                <div className="mr-auto flex items-center gap-1 rounded-2xl border border-white/10 bg-brand-navy-900 px-3 py-2 text-xs text-brand-muted">
+                <div className="mr-auto flex items-center gap-1 rounded-xl border border-white/10 bg-ink-900 px-3 py-2 text-xs text-brand-muted">
                   <span className="inline-flex gap-1" aria-label="Assistant is typing">
                     <motion.span
-                      className="h-1.5 w-1.5 rounded-full bg-brand-yellow"
+                      className="h-1.5 w-1.5 rounded-full bg-brand-accent"
                       animate={{ opacity: [0.25, 1, 0.25] }}
                       transition={{ repeat: Infinity, duration: 1, delay: 0 }}
                     />
                     <motion.span
-                      className="h-1.5 w-1.5 rounded-full bg-brand-yellow"
+                      className="h-1.5 w-1.5 rounded-full bg-brand-accent"
                       animate={{ opacity: [0.25, 1, 0.25] }}
                       transition={{ repeat: Infinity, duration: 1, delay: 0.15 }}
                     />
                     <motion.span
-                      className="h-1.5 w-1.5 rounded-full bg-brand-yellow"
+                      className="h-1.5 w-1.5 rounded-full bg-brand-accent"
                       animate={{ opacity: [0.25, 1, 0.25] }}
                       transition={{ repeat: Infinity, duration: 1, delay: 0.3 }}
                     />
@@ -175,7 +175,7 @@ export function ChatWidget() {
                   <Link
                     key={c.to}
                     to={c.to}
-                    className="rounded-full border border-white/10 bg-brand-navy-950/50 px-3 py-1 text-xs text-brand-text hover:border-white/25 hover:text-white"
+                    className="rounded-full border border-white/10 bg-ink-950/50 px-3 py-1 text-xs text-brand-text hover:border-white/25 hover:text-white"
                     onClick={() => setOpen(false)}
                   >
                     {c.label}
@@ -185,7 +185,7 @@ export function ChatWidget() {
             </div>
 
             <form
-              className="border-t border-white/10 bg-brand-navy-950/50 p-3"
+              className="border-t border-white/10 bg-ink-950/50 p-3"
               onSubmit={(e) => {
                 e.preventDefault();
                 void send(input);
@@ -200,22 +200,22 @@ export function ChatWidget() {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask anything…"
-                  className="flex-1 rounded-xl border border-white/10 bg-brand-navy-900 px-3 py-2 text-sm text-white placeholder:text-brand-muted focus:border-white/25 focus:outline-none"
+                  className="flex-1 rounded-xl border border-white/10 bg-ink-900 px-3 py-2 text-sm text-white placeholder:text-brand-muted focus:border-white/25 focus:outline-none"
                   autoComplete="off"
                 />
                 <button
                   type="submit"
-                  className="rounded-xl border border-white/15 bg-white px-4 py-2 text-sm font-semibold text-brand-ink hover:bg-white/95"
+                  className="rounded-xl border border-white/15 bg-white px-4 py-2 text-sm font-semibold text-ink-950 hover:bg-white/95"
                 >
                   Send
                 </button>
               </div>
-              <div className="mt-2 text-[11px] text-brand-muted">
-                This assistant runs locally in your browser (no paid AI). For emergencies, call{" "}
-                <a className="text-white hover:underline" href="tel:+14165359341">
+              <div className="mt-2.5 text-[11px] leading-relaxed text-brand-muted">
+                For urgent security concerns, call{" "}
+                <a className="font-medium tabular-nums text-white hover:underline" href="tel:+14165359341">
                   {EMERGENCY}
-                </a>
-                .
+                </a>{" "}
+                — do not wait on chat.
               </div>
             </form>
           </motion.section>
@@ -226,7 +226,7 @@ export function ChatWidget() {
         <button
           type="button"
           onClick={() => setMinimized(false)}
-          className="mb-3 w-full rounded-xl border border-white/10 bg-brand-navy-800 px-4 py-2 text-left text-sm text-white shadow-card"
+          className="mb-3 w-full rounded-xl border border-white/10 bg-ink-850 px-4 py-2 text-left text-sm text-white shadow-card"
         >
           Resume chat
         </button>
@@ -242,7 +242,7 @@ export function ChatWidget() {
           setOpen((v) => !v);
           setMinimized(false);
         }}
-        className="ml-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-white/15 bg-white text-brand-ink shadow-lift"
+        className="ml-auto flex h-14 w-14 items-center justify-center rounded-xl border border-white/15 bg-white text-ink-950 shadow-lift"
         aria-expanded={open}
         aria-controls={panelId}
       >

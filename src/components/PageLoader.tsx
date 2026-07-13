@@ -2,12 +2,12 @@ import { motion } from "framer-motion";
 
 export function PageLoader() {
   return (
-    <div className="dot-bg flex min-h-[60vh] items-center justify-center bg-brand-dark">
+    <div className="flex min-h-[60vh] items-center justify-center bg-ink-950">
       <motion.div
-        className="h-10 w-10 rounded-full border-2 border-brand-border border-t-brand-yellow"
+        className="h-6 w-6 rounded-full border border-white/15 border-t-white"
         animate={{ rotate: 360 }}
-        transition={{ repeat: Infinity, duration: 0.9, ease: "linear" }}
-        aria-label="Loading page"
+        transition={{ repeat: Infinity, duration: 0.8, ease: "linear" }}
+        aria-label="Loading"
         role="status"
       />
     </div>

@@ -1,5 +1,8 @@
-import type { ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
+import { motion, useReducedMotion, useScroll, useSpring, useTransform } from "framer-motion";
 import { Container } from "./Container";
+import { AnimatedText, Rise } from "./AnimatedText";
+import { EASE } from "../lib/motion";
 
 type ImageHeroProps = {
   eyebrow: string;
@@ -14,7 +17,11 @@ type ImageHeroProps = {
 };
 
 /**
- * Full-bleed image hero with no overlays; copy lives in a solid section below the photo.
+ * Full-bleed image hero; copy lives in a solid band below the photo.
+ *
+ * The photo settles out of a slow scale-down on load and drifts under parallax as
+ * you scroll — the same language as the home hero, so inner pages do not feel
+ * like a different site.
  */
 export function ImageHero({
   eyebrow,
@@ -26,27 +33,54 @@ export function ImageHero({
   actions,
   minHeightClass = "min-h-[min(80svh,680px)] sm:min-h-[min(85svh,720px)]",
 }: ImageHeroProps) {
+  const reduce = useReducedMotion();
+  const ref = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
+  const smooth = useSpring(scrollYProgress, { stiffness: 120, damping: 30, mass: 0.4 });
+  const y = useTransform(smooth, [0, 1], ["0%", "16%"]);
+
   return (
     <>
-      <section className={`relative isolate overflow-hidden border-b border-white/10 ${minHeightClass}`}>
-        <img
+      <section
+        ref={ref}
+        className={`relative isolate overflow-hidden border-b border-white/10 ${minHeightClass}`}
+      >
+        <motion.img
           src={imageSrc}
           alt={imageAlt}
           className={`absolute inset-0 h-full w-full object-cover ${objectClass}`}
           loading="eager"
+          style={reduce ? undefined : { y }}
+          initial={reduce ? false : { scale: 1.12, opacity: 0 }}
+          animate={reduce ? undefined : { scale: 1, opacity: 1 }}
+          transition={{ duration: 1.4, ease: EASE }}
         />
       </section>
 
       <section className="border-b border-white/10 dot-bg bg-brand-surface">
         <Container className="px-4 py-12 sm:px-6 sm:py-16">
           <header>
-            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-brand-muted">{eyebrow}</p>
-            <h1 className="mt-4 font-display text-[1.75rem] leading-tight tracking-[0.02em] text-white sm:text-4xl lg:text-[2.75rem] lg:leading-tight xl:text-5xl xl:whitespace-nowrap">
+            <Rise immediate>
+              <p className="flex items-center gap-4 font-display text-eyebrow font-bold uppercase text-brand-accent">
+                <span aria-hidden className="h-px w-8 bg-brand-accent/60" />
+                {eyebrow}
+              </p>
+            </Rise>
+            <AnimatedText
+              as="h1"
+              immediate
+              delay={0.12}
+              className="mt-5 max-w-4xl font-display text-d2 font-extrabold text-white"
+            >
               {title}
-            </h1>
+            </AnimatedText>
           </header>
-          <p className="mt-6 max-w-2xl text-sm leading-relaxed text-brand-muted sm:text-base">{description}</p>
-          <div className="mt-8 flex flex-wrap gap-3">{actions}</div>
+          <Rise immediate delay={0.3}>
+            <p className="mt-6 max-w-2xl text-sm leading-relaxed text-brand-muted sm:text-base">{description}</p>
+          </Rise>
+          <Rise immediate delay={0.42}>
+            <div className="mt-8 flex flex-wrap gap-3">{actions}</div>
+          </Rise>
         </Container>
       </section>
     </>
