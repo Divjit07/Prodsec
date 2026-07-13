@@ -119,22 +119,24 @@ export default function Home() {
       />
 
       {/* ---------------------------------------------------------------- Hero
-          Mobile stacks: the film runs at its native 2.08:1 so the whole patch is
-          legible, then the lockup sits beneath it on the dot ground.
-          Desktop (lg+) goes full-bleed with the lockup overlaid. */}
+          Mobile stacks the film above the lockup; desktop (lg+) goes full-bleed
+          with the lockup overlaid. Either way the film is feathered on every
+          edge so it dissolves into the dot ground instead of sitting on it as a
+          hard-edged rectangle. */}
       <section
         ref={heroRef}
         className="relative isolate overflow-hidden lg:flex lg:min-h-[92svh] lg:flex-col lg:justify-end"
       >
         <motion.div
-          className="relative aspect-[1920/925] w-full lg:absolute lg:inset-0 lg:aspect-auto lg:h-full"
+          className="relative aspect-[16/9] w-full lg:absolute lg:inset-0 lg:aspect-auto lg:h-full"
           style={mediaStyle}
         >
           <img
             src={HERO_POSTER}
             alt=""
-            // Native aspect on mobile means object-cover has nothing to crop.
-            className="absolute inset-0 h-full w-full object-cover object-center lg:object-[70%_center]"
+            // 16:9 trims a little off a 2.08:1 frame, which is what gives the
+            // focal point room to sit left of centre instead of drifting right.
+            className="absolute inset-0 h-full w-full object-cover object-[62%_center] lg:object-[70%_center]"
             width={1920}
             height={925}
             // React 18 does not map the camelCase prop; the DOM attribute is lowercase.
@@ -142,7 +144,7 @@ export default function Home() {
           />
           {showVideo ? (
             <motion.video
-              className="absolute inset-0 h-full w-full object-cover object-center lg:object-[70%_center]"
+              className="absolute inset-0 h-full w-full object-cover object-[62%_center] lg:object-[70%_center]"
               autoPlay
               muted
               loop
@@ -162,12 +164,27 @@ export default function Home() {
           ) : null}
 
           <div aria-hidden className="absolute inset-0 bg-ink-950/20" />
-          {/* Feather the base of the film into the page so the stacked mobile
-              layout does not read as a photo pasted above some text. */}
+
+          {/* Mobile: feather every edge. Top kills the hard cut under the header,
+              base carries the film into the copy, sides round it off. */}
           <div
             aria-hidden
-            className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-ink-950 to-transparent lg:hidden"
+            className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-ink-950 via-ink-950/50 to-transparent lg:hidden"
           />
+          <div
+            aria-hidden
+            className="absolute inset-x-0 bottom-0 h-44 bg-gradient-to-t from-ink-950 via-ink-950/80 to-transparent lg:hidden"
+          />
+          <div
+            aria-hidden
+            className="absolute inset-y-0 left-0 w-16 bg-gradient-to-r from-ink-950/80 to-transparent lg:hidden"
+          />
+          <div
+            aria-hidden
+            className="absolute inset-y-0 right-0 w-16 bg-gradient-to-l from-ink-950/80 to-transparent lg:hidden"
+          />
+
+          {/* Desktop: one long scrim up from the base, so the overlaid copy reads. */}
           <div
             aria-hidden
             className="absolute inset-0 hidden bg-gradient-to-t from-ink-950 from-[2%] via-ink-950/45 via-30% to-transparent to-70% lg:block"
@@ -175,7 +192,9 @@ export default function Home() {
         </motion.div>
 
         <motion.div className="relative" style={copyStyle}>
-          <Container className="pb-14 pt-10 sm:pb-16 lg:pt-32">
+          {/* -mt pulls the copy up into the film's feathered base so the two
+              overlap rather than stacking as two separate blocks. */}
+          <Container className="-mt-10 pb-12 pt-0 sm:-mt-12 sm:pb-16 lg:mt-0 lg:pb-16 lg:pt-32">
             <div className="flex flex-col items-start gap-8 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <AnimatedText
@@ -255,6 +274,16 @@ export default function Home() {
                 <p className="max-w-prose text-lede text-brand-text2">
                   Licensed officers on commercial, residential, retail, healthcare, construction, and event programs
                   across Ontario—staffed, field-checked, and reported to a standard you can stand behind.
+                </p>
+                <p className="mt-5 max-w-prose text-sm leading-relaxed text-brand-muted">
+                  Since 1997 we have built programs around how your site actually runs: visitor flow, after-hours
+                  exposure, and the escalation path your management team expects. Supervision is not a phone tree—it is
+                  scheduled field checks, clear post orders, and incident writing that holds up when someone asks what
+                  happened.
+                </p>
+                <p className="mt-5 max-w-prose text-sm leading-relaxed text-brand-muted">
+                  Tell us the hours, the risk, and the standard you are held to. We will come back with a coverage model
+                  your operations and ownership teams can both approve.
                 </p>
               </Rise>
               <Rise delay={0.4} className="mt-10 flex flex-wrap gap-x-8 gap-y-4">
