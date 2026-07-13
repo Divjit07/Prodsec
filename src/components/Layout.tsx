@@ -93,7 +93,7 @@ function NavItem({ group }: { group: NavGroup }) {
         to={group.to}
         className={({ isActive }) =>
           `group relative whitespace-nowrap px-3 py-2 font-display text-[0.6875rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-300 ${
-            isActive ? "text-white" : "text-brand-muted hover:text-white"
+            isActive ? "text-white" : "text-white/90 hover:text-white"
           }`
         }
       >
@@ -127,7 +127,7 @@ function NavItem({ group }: { group: NavGroup }) {
         aria-expanded={open}
         className={({ isActive }) =>
           `relative flex items-center gap-1.5 whitespace-nowrap px-3 py-2 font-display text-[0.6875rem] font-semibold uppercase tracking-[0.14em] transition-colors duration-300 ${
-            isActive ? "text-white" : "text-brand-muted hover:text-white"
+            isActive ? "text-white" : "text-white/90 hover:text-white"
           }`
         }
       >
@@ -289,7 +289,7 @@ export function Layout() {
           <div className="ml-auto flex items-center gap-2 lg:ml-6 lg:gap-4">
             <a
               href={phone.href}
-              className="hidden whitespace-nowrap font-display text-[0.6875rem] font-semibold tabular-nums tracking-[0.06em] text-brand-muted transition-colors hover:text-white xl:block"
+              className="hidden whitespace-nowrap font-display text-[0.6875rem] font-semibold tabular-nums tracking-[0.06em] text-white transition-colors hover:text-white/80 xl:block"
             >
               {phone.display}
             </a>
@@ -368,7 +368,7 @@ export function Layout() {
                           to={leaf.to}
                           className={({ isActive }) =>
                             `-mx-2 rounded px-2 py-2 text-[0.9375rem] transition-colors duration-300 ${
-                              isActive ? "text-white" : "text-brand-muted hover:text-white"
+                              isActive ? "text-white" : "text-white/90 hover:text-white"
                             }`
                           }
                         >
