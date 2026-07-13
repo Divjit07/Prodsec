@@ -52,9 +52,29 @@ function useHeroVideo() {
   return mounted && !reduceMotion;
 }
 
+/**
+ * Desktop overlays the copy on a full-bleed film. Mobile stacks them, because the
+ * film is 2.08:1 and object-cover would crop ~70% of its width away in a portrait
+ * frame — which is what made the patch read as a meaningless zoomed-in blur.
+ */
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setIsDesktop(mq.matches);
+    sync();
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  return isDesktop;
+}
+
 export default function Home() {
   const showVideo = useHeroVideo();
   const reduce = useReducedMotion();
+  const isDesktop = useIsDesktop();
   const heroRef = useRef<HTMLElement>(null);
 
   // Parallax: the film drifts slower than the page and dims as it leaves. Spring-
@@ -65,6 +85,12 @@ export default function Home() {
   const mediaScale = useTransform(smooth, [0, 1], [1, 1.12]);
   const copyY = useTransform(smooth, [0, 1], [0, -60]);
   const copyOpacity = useTransform(smooth, [0, 0.6], [1, 0]);
+
+  // On mobile the film sits in the document flow, so translating it would tear a
+  // gap under it. Parallax is a desktop-only affordance.
+  const animateMedia = isDesktop && !reduce;
+  const mediaStyle = animateMedia ? { y: mediaY, scale: mediaScale } : undefined;
+  const copyStyle = animateMedia ? { y: copyY, opacity: copyOpacity } : undefined;
 
   useEffect(() => {
     injectJsonLd("prodsec-org", {
@@ -93,20 +119,22 @@ export default function Home() {
       />
 
       {/* ---------------------------------------------------------------- Hero
-          The film carries this section. It gets a light scrim only — enough to
-          hold the mark, not enough to bury the footage. */}
+          Mobile stacks: the film runs at its native 2.08:1 so the whole patch is
+          legible, then the lockup sits beneath it on the dot ground.
+          Desktop (lg+) goes full-bleed with the lockup overlaid. */}
       <section
         ref={heroRef}
-        className="relative isolate flex min-h-[86svh] flex-col justify-end overflow-hidden lg:min-h-[92svh]"
+        className="relative isolate overflow-hidden lg:flex lg:min-h-[92svh] lg:flex-col lg:justify-end"
       >
         <motion.div
-          className="absolute inset-0 -z-10"
-          style={reduce ? undefined : { y: mediaY, scale: mediaScale }}
+          className="relative aspect-[1920/925] w-full lg:absolute lg:inset-0 lg:aspect-auto lg:h-full"
+          style={mediaStyle}
         >
           <img
             src={HERO_POSTER}
             alt=""
-            className="h-full w-full object-cover object-[72%_top] lg:object-[70%_center]"
+            // Native aspect on mobile means object-cover has nothing to crop.
+            className="absolute inset-0 h-full w-full object-cover object-center lg:object-[70%_center]"
             width={1920}
             height={925}
             // React 18 does not map the camelCase prop; the DOM attribute is lowercase.
@@ -114,7 +142,7 @@ export default function Home() {
           />
           {showVideo ? (
             <motion.video
-              className="absolute inset-0 h-full w-full object-cover object-[70%_center]"
+              className="absolute inset-0 h-full w-full object-cover object-center lg:object-[70%_center]"
               autoPlay
               muted
               loop
@@ -134,14 +162,20 @@ export default function Home() {
           ) : null}
 
           <div aria-hidden className="absolute inset-0 bg-ink-950/20" />
+          {/* Feather the base of the film into the page so the stacked mobile
+              layout does not read as a photo pasted above some text. */}
           <div
             aria-hidden
-            className="absolute inset-0 bg-gradient-to-t from-ink-950 from-[2%] via-ink-950/45 via-30% to-transparent to-70%"
+            className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-ink-950 to-transparent lg:hidden"
+          />
+          <div
+            aria-hidden
+            className="absolute inset-0 hidden bg-gradient-to-t from-ink-950 from-[2%] via-ink-950/45 via-30% to-transparent to-70% lg:block"
           />
         </motion.div>
 
-        <motion.div style={reduce ? undefined : { y: copyY, opacity: copyOpacity }}>
-          <Container className="pb-14 pt-32 sm:pb-16">
+        <motion.div className="relative" style={copyStyle}>
+          <Container className="pb-14 pt-10 sm:pb-16 lg:pt-32">
             <div className="flex flex-col items-start gap-8 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <AnimatedText
@@ -200,7 +234,7 @@ export default function Home() {
 
       {/* ------------------------------------------------------------ Statement */}
       <section className="dot-bg border-b border-white/[0.07] bg-ink-950">
-        <Container className="py-24 lg:py-32">
+        <Container className="py-16 sm:py-20 lg:py-32">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-7">
               <Rise>
