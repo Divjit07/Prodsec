@@ -40,6 +40,7 @@ export default {
       fontFamily: {
         display: ["Archivo", "system-ui", "sans-serif"],
         sans: ["Inter", "system-ui", "sans-serif"],
+        credit: ["Syne", "Archivo", "system-ui", "sans-serif"],
       },
       fontSize: {
         /* Titles land through weight + scale + tight tracking. A heavy grotesk

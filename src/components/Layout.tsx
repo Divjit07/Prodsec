@@ -507,8 +507,14 @@ export function Layout() {
             </div>
           </div>
 
-          <div className="mt-16 flex flex-col gap-3 border-t border-white/[0.07] pt-8 text-xs text-brand-muted sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-16 flex flex-col gap-4 border-t border-white/[0.07] pt-8 text-xs text-brand-muted sm:flex-row sm:items-center sm:justify-between">
             <p>© {new Date().getFullYear()} Productive Security Inc. All rights reserved.</p>
+            <p className="font-credit text-[0.7rem] font-bold uppercase tracking-[0.18em] text-white/55 transition-colors hover:text-brand-accent sm:text-center">
+              Website made and designed by{" "}
+              <span className="bg-gradient-to-r from-brand-accent via-white to-brand-accent bg-clip-text text-transparent">
+                Divjit Singh Dhatt
+              </span>
+            </p>
             {/* Ontario requires the agency licence number on advertising — drop it in here. */}
             <p>Toronto, Ontario, Canada</p>
           </div>
