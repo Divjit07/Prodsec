@@ -29,11 +29,16 @@ const GALLERY = Object.entries(
  * low in frame — a top-biased crop cuts him out entirely).
  */
 function focalFor(path: string) {
-  if (path.includes("team-portrait")) return "50% 58%"; // supervisor sits front-row centre
-  if (path.includes("supervisor-portrait")) return "50% 20%";
-  if (path.includes("patrol-portrait")) return "50% 20%";
-  if (path.includes("officers-on-patrol")) return "50% 32%";
-  return "50% 35%";
+  // Landscape frame — the supervisor stands right of centre.
+  if (path.includes("team-supervisor-suv")) return "56% 50%";
+  // Tall officer portrait — keep face and vest branding in frame.
+  if (path.includes("supervisor-portrait")) return "50% 22%";
+  // The rest are tall portraits: bias the crop up so faces survive it.
+  if (path.includes("guard-museum")) return "42% 26%";
+  if (path.includes("guard-id-check")) return "50% 24%";
+  if (path.includes("guard-lobby")) return "50% 26%";
+  if (path.includes("supervisor-night")) return "50% 22%";
+  return "50% 30%";
 }
 
 /** Fast enough to feel alive, slow enough to actually read the photo. */

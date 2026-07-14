@@ -24,10 +24,9 @@ export default function TeamsIndex() {
         // lines. This is a complete sentence and wraps cleanly.
         title="We align leadership, officers, and patrol rhythm to your account."
         description="Effective security is not headcount alone. Account direction, field supervision, and patrol design work together, so the standard holds at 2 a.m. on a Tuesday exactly as it does in a Monday board review. Choose the mix that matches your risk, your hours, and how your property actually runs."
-        imageSrc={brandImages.teamPortrait}
-        imageAlt="The Productive Security team"
-        // Supervisor is front-row centre, so the crop is biased low.
-        objectClass="object-[50%_58%]"
+        imageSrc={brandImages.teamSupervisorSuv}
+        imageAlt="Productive Security supervisor and officers at the patrol vehicle"
+        objectClass="object-[58%_center]"
         minHeightClass="min-h-[min(52svh,380px)] sm:min-h-[min(58svh,460px)] lg:min-h-[min(84svh,760px)]"
         actions={
           <Link
@@ -64,12 +63,12 @@ export default function TeamsIndex() {
           <CardSpread
             className="mt-16 h-[22rem] sm:h-[26rem] lg:mt-20 lg:h-[30rem]"
             cards={[
-              { src: brandImages.officersOnPatrol, alt: "Two officers on patrol", x: -170, rotate: -14, z: 10 },
-              { src: brandImages.supervisorPortrait, alt: "Field supervisor", x: -88, rotate: -7, z: 20 },
+              { src: brandImages.guardMuseum, alt: "Officer on gallery post", x: -170, rotate: -14, z: 10 },
+              { src: brandImages.guardLobby, alt: "Officer on lobby post", x: -88, rotate: -7, z: 20 },
               // The group portrait is the point of the section: front, centre, largest.
               { src: brandImages.teamPortrait, alt: "The Productive Security team", x: 0, rotate: 0, z: 30, scale: 1.1 },
-              { src: brandImages.patrolPortrait, alt: "Officer on patrol", x: 88, rotate: 7, z: 20 },
-              { src: brandImages.cardCloseup, alt: "Officer in uniform", x: 170, rotate: 14, z: 10 },
+              { src: brandImages.guardIdCheck, alt: "Officer checking ID at an access gate", x: 88, rotate: 7, z: 20 },
+              { src: brandImages.supervisorNight, alt: "Supervisor on night patrol", x: 170, rotate: 14, z: 10 },
             ]}
           />
         </Container>
