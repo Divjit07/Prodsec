@@ -151,7 +151,7 @@ export default function Home() {
           */}
           <div
             className="absolute inset-0 will-change-transform"
-            style={{ transform: "scale(1.38) translateX(-11%)", transformOrigin: "center center" }}
+            style={{ transform: "scale(1.22) translateX(-5%)", transformOrigin: "center center" }}
           >
             <img
               src={HERO_POSTER}
