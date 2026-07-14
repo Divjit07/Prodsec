@@ -34,8 +34,11 @@ export default function ServicesIndex() {
                 <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-muted">
                   Service lines
                 </p>
-                <h1 className="mt-3 max-w-md text-balance font-display text-[2rem] leading-[0.98] tracking-[0.02em] text-white sm:text-5xl sm:leading-[0.98]">
-                  Programs built for your sector—not recycled post orders.
+                <h1 className="mt-3 max-w-lg font-display text-[2rem] font-extrabold leading-[1.05] tracking-[-0.02em] text-white sm:text-5xl sm:leading-[1.02]">
+                  Programs built for your sector
+                  <span className="mt-1 block font-semibold text-white/75 sm:mt-2">
+                    Not recycled post orders
+                  </span>
                 </h1>
 
                 <nav className="mt-10" aria-label="Security programs by sector">
@@ -76,10 +79,10 @@ export default function ServicesIndex() {
               <div className="relative min-h-[min(48vh,380px)] flex-1 overflow-hidden rounded-2xl bg-brand-dark shadow-lift ring-1 ring-white/[0.07] lg:min-h-[min(560px,calc(100dvh-10rem))]">
                 <img
                   src={brandImages.guard}
-                  alt="Uniformed Productive Security officer on site"
-                  className="absolute inset-0 h-full w-full object-cover object-[52%_28%] sm:object-[50%_30%]"
-                  width={1600}
-                  height={1200}
+                  alt="Productive Security officers on patrol"
+                  className="absolute inset-0 h-full w-full object-cover object-center"
+                  width={857}
+                  height={730}
                   loading="eager"
                 />
                 <div

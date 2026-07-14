@@ -134,9 +134,11 @@ export default function Home() {
           <img
             src={HERO_POSTER}
             alt=""
-            // 16:9 trims a little off a 2.08:1 frame, which is what gives the
-            // focal point room to sit left of centre instead of drifting right.
-            className="absolute inset-0 h-full w-full object-cover object-[62%_center] lg:object-[70%_center]"
+            // The patch spans 16%-97% of the source frame — its centre is at 57%
+            // and its right edge all but touches the frame edge. These values put
+            // the crop window at 14%-99%, which centres the patch and keeps its
+            // right edge intact; anything lower shears it off.
+            className="absolute inset-0 h-full w-full object-cover object-[95%_center] lg:object-[90%_center]"
             width={1920}
             height={925}
             // React 18 does not map the camelCase prop; the DOM attribute is lowercase.
@@ -144,7 +146,7 @@ export default function Home() {
           />
           {showVideo ? (
             <motion.video
-              className="absolute inset-0 h-full w-full object-cover object-[62%_center] lg:object-[70%_center]"
+              className="absolute inset-0 h-full w-full object-cover object-[95%_center] lg:object-[90%_center]"
               autoPlay
               muted
               loop
@@ -191,10 +193,11 @@ export default function Home() {
           />
         </motion.div>
 
-        <motion.div className="relative" style={copyStyle}>
-          {/* -mt pulls the copy up into the film's feathered base so the two
-              overlap rather than stacking as two separate blocks. */}
-          <Container className="-mt-10 pb-12 pt-0 sm:-mt-12 sm:pb-16 lg:mt-0 lg:pb-16 lg:pt-32">
+        {/* Desktop only. On mobile this lockup duplicated the marquee strip and
+            left a dead gap above the real headline, so the headline goes
+            straight under the film instead. */}
+        <motion.div className="relative hidden lg:block" style={copyStyle}>
+          <Container className="pb-16 pt-32">
             <div className="flex flex-col items-start gap-8 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <AnimatedText
@@ -251,9 +254,11 @@ export default function Home() {
         )}
       </section>
 
-      {/* ------------------------------------------------------------ Statement */}
+      {/* ------------------------------------------------------------ Statement
+          On mobile this IS the hero copy — it sits straight under the film, so
+          the top padding is tight. On desktop it is a section in its own right. */}
       <section className="dot-bg border-b border-white/[0.07] bg-ink-950">
-        <Container className="py-16 sm:py-20 lg:py-32">
+        <Container className="pb-16 pt-8 sm:pb-20 sm:pt-12 lg:py-32">
           <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
             <div className="lg:col-span-7">
               <Rise>
@@ -286,10 +291,18 @@ export default function Home() {
                   your operations and ownership teams can both approve.
                 </p>
               </Rise>
-              <Rise delay={0.4} className="mt-10 flex flex-wrap gap-x-8 gap-y-4">
+              {/* A real primary action, so the block lands on a decision rather
+                  than trailing off into two quiet links. */}
+              <Rise delay={0.4} className="mt-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-5">
+                <Link
+                  to="/quote"
+                  className="inline-flex h-12 items-center justify-center bg-white px-7 font-display text-caps font-bold uppercase text-ink-950 transition hover:bg-white/90 active:scale-[0.98]"
+                >
+                  Request a proposal
+                </Link>
                 <Link
                   to="/services"
-                  className="group inline-flex items-center gap-3 border-b border-white/25 pb-1.5 font-display text-caps font-bold uppercase text-white transition-colors hover:border-white"
+                  className="group inline-flex h-12 items-center justify-center gap-3 border border-white/20 px-7 font-display text-caps font-bold uppercase text-white transition-colors hover:border-white/50 hover:bg-white/5"
                 >
                   Service sectors
                   <svg viewBox="0 0 16 16" aria-hidden className="h-3 w-3 transition-transform duration-500 ease-out group-hover:translate-x-1">
@@ -298,7 +311,7 @@ export default function Home() {
                 </Link>
                 <a
                   href="tel:+14165359341"
-                  className="inline-flex items-center border-b border-transparent pb-1.5 font-display text-caps font-bold uppercase tabular-nums text-brand-muted transition-colors hover:border-white/40 hover:text-white"
+                  className="inline-flex items-center justify-center font-display text-caps font-bold uppercase tabular-nums text-brand-muted transition-colors hover:text-white sm:ml-1"
                 >
                   416.535.9341
                 </a>
@@ -431,10 +444,10 @@ export default function Home() {
               >
                 <img
                   src={brandImages.principlesFeature}
-                  alt="Security supervisor reviewing documented incident logs on site"
-                  className="aspect-[4/3] w-full object-cover object-center"
-                  width={1400}
-                  height={1050}
+                  alt="Productive Security officers on patrol and operations"
+                  className="aspect-[16/9] w-full object-cover object-center"
+                  width={1024}
+                  height={572}
                   loading="lazy"
                 />
               </motion.figure>
