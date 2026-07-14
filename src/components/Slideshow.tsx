@@ -74,7 +74,7 @@ export function Slideshow({ className = "", alt, overlayClassName }: SlideshowPr
   if (reduce || count === 1) {
     return (
       <div ref={containerRef} className={`relative overflow-hidden ${className}`}>
-        <img src={GALLERY[0]} alt={alt} className="absolute inset-0 h-full w-full object-cover object-center" />
+        <img src={GALLERY[0]} alt={alt} className="absolute inset-0 h-full w-full object-cover object-[50%_26%]" />
         {overlayClassName ? <div aria-hidden className={`pointer-events-none absolute inset-0 ${overlayClassName}`} /> : null}
       </div>
     );
@@ -97,7 +97,7 @@ export function Slideshow({ className = "", alt, overlayClassName }: SlideshowPr
           src={GALLERY[index]}
           alt=""
           aria-hidden
-          className="absolute inset-0 h-full w-full object-cover object-center will-change-transform"
+          className="absolute inset-0 h-full w-full object-cover object-[50%_26%] will-change-transform"
           initial={{ opacity: 0, scale: 1.06 }}
           animate={{ opacity: 1, scale: 1.12 }}
           exit={{ opacity: 0 }}

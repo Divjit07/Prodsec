@@ -147,11 +147,9 @@ export default function Home() {
           <img
             src={HERO_POSTER}
             alt=""
-            // The patch spans 16%-97% of the source frame — its centre is at 57%
-            // and its right edge all but touches the frame edge. These values put
-            // the crop window at 14%-99%, which centres the patch and keeps its
-            // right edge intact; anything lower shears it off.
-            className="absolute inset-0 h-full w-full object-cover object-[95%_center] lg:object-[90%_center]"
+            // From 95% → 55% the crest moved left but still read heavy-right.
+            // Keep going left on the crop so the embroidered mark sits mid-frame.
+            className="absolute inset-0 h-full w-full object-cover object-[40%_center] lg:object-[35%_center]"
             width={1920}
             height={925}
             // React 18 does not map the camelCase prop; the DOM attribute is lowercase.
@@ -159,7 +157,7 @@ export default function Home() {
           />
           {showVideo ? (
             <motion.video
-              className="absolute inset-0 h-full w-full object-cover object-[95%_center] lg:object-[90%_center]"
+              className="absolute inset-0 h-full w-full object-cover object-[40%_center] lg:object-[35%_center]"
               autoPlay
               muted
               loop
