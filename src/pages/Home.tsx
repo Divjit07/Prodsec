@@ -14,7 +14,7 @@ import { brandImages } from "../data/brandAssets";
 import { siteUrl } from "../data/site";
 
 const HERO_VIDEO_SRC = `${import.meta.env.BASE_URL}media/landing-hero.mp4`;
-const HERO_POSTER = brandImages.guard;
+const HERO_POSTER = brandImages.heroFrame;
 
 const factTicker = [
   "Established 1997",
@@ -141,40 +141,48 @@ export default function Home() {
         className="relative isolate overflow-hidden lg:flex lg:min-h-[92svh] lg:flex-col lg:justify-end"
       >
         <motion.div
-          className="relative aspect-[16/9] w-full lg:absolute lg:inset-0 lg:aspect-auto lg:h-full"
+          className="relative aspect-[16/9] w-full overflow-hidden lg:absolute lg:inset-0 lg:aspect-auto lg:h-full"
           style={mediaStyle}
         >
-          <img
-            src={HERO_POSTER}
-            alt=""
-            // From 95% → 55% the crest moved left but still read heavy-right.
-            // Keep going left on the crop so the embroidered mark sits mid-frame.
-            className="absolute inset-0 h-full w-full object-cover object-[40%_center] lg:object-[35%_center]"
-            width={1920}
-            height={925}
-            // React 18 does not map the camelCase prop; the DOM attribute is lowercase.
-            {...{ fetchpriority: "high" }}
-          />
-          {showVideo ? (
-            <motion.video
-              className="absolute inset-0 h-full w-full object-cover object-[40%_center] lg:object-[35%_center]"
-              autoPlay
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              poster={HERO_POSTER}
-              aria-hidden
-              disablePictureInPicture
-              // The film fades up once it can actually paint, so there is no
-              // hard swap from poster to first frame.
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1.2, ease: EASE }}
-            >
-              <source src={HERO_VIDEO_SRC} type="video/mp4" />
-            </motion.video>
-          ) : null}
+          {/*
+            Mobile hero is also 16:9 — same as the film — so object-position is a no-op
+            (nothing to crop). A scaled/translated inner layer reframes the embroidered
+            crest into the middle. Empty left fabric → pull left with a negative X.
+          */}
+          <div
+            className="absolute inset-0 will-change-transform"
+            style={{ transform: "scale(1.38) translateX(-11%)", transformOrigin: "center center" }}
+          >
+            <img
+              src={HERO_POSTER}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover"
+              width={1920}
+              height={925}
+              // React 18 does not map the camelCase prop; the DOM attribute is lowercase.
+              {...{ fetchpriority: "high" }}
+            />
+            {showVideo ? (
+              <motion.video
+                className="absolute inset-0 h-full w-full object-cover"
+                autoPlay
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                poster={HERO_POSTER}
+                aria-hidden
+                disablePictureInPicture
+                // The film fades up once it can actually paint, so there is no
+                // hard swap from poster to first frame.
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1.2, ease: EASE }}
+              >
+                <source src={`${HERO_VIDEO_SRC}?v=center`} type="video/mp4" />
+              </motion.video>
+            ) : null}
+          </div>
 
           <div aria-hidden className="absolute inset-0 bg-ink-950/20" />
 
@@ -449,9 +457,12 @@ export default function Home() {
 
       {/* ---------------------------------------------------------- Principles */}
       <section className="dot-bg-soft border-y border-white/[0.07] bg-ink-900">
-        <Container className="py-20 lg:py-28">
+        {/* Wider than the standard container. The photo is a four-panel collage and
+            needs real width, but the text column cannot drop below 5/12 or the
+            headline breaks across four lines — so the whole band gets more room. */}
+        <div className="mx-auto w-full max-w-[90rem] px-4 py-20 sm:px-6 lg:py-28">
           <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-10">
-            <div className="lg:col-span-5 lg:-mt-1">
+            <div className="lg:col-span-5 lg:-mt-5">
               <Rise>
                 <Eyebrow>Operating principles</Eyebrow>
               </Rise>
@@ -474,9 +485,11 @@ export default function Home() {
 
             {/* The photo scales down into place rather than sliding — it reads as
                 the image settling, not as a card flying in. */}
+            {/* Bleeds past the container's right gutter on large screens, which
+                buys real width without cropping the frame. */}
             <Rise className="lg:col-span-7" delay={0.15}>
               <motion.figure
-                className="overflow-hidden rounded-2xl border border-white/10 shadow-lift lg:-mt-2"
+                className="overflow-hidden rounded-2xl border border-white/10 shadow-lift"
                 initial={reduce ? false : { scale: 1.06 }}
                 whileInView={reduce ? undefined : { scale: 1 }}
                 viewport={{ once: true, margin: "-10% 0px" }}
@@ -485,7 +498,9 @@ export default function Home() {
                 <img
                   src={brandImages.principlesFeature}
                   alt="Productive Security officers on patrol and operations"
-                  className="aspect-[16/9] w-full min-h-[14rem] object-cover object-center sm:min-h-[18rem] lg:min-h-[24rem]"
+                  // Native 16:9 — the source is 1024x572, so any other ratio
+                  // would slice through the collage panels.
+                  className="aspect-[16/9] w-full object-cover object-center"
                   width={1024}
                   height={572}
                   loading="lazy"
@@ -507,7 +522,7 @@ export default function Home() {
               </StaggerItem>
             ))}
           </Stagger>
-        </Container>
+        </div>
       </section>
 
       {/* ---------------------------------------------------------- Engagement */}

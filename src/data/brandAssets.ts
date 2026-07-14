@@ -8,6 +8,8 @@ export const brandImages = {
   /** Vector crest with built-in depth for large placements. */
   logoCrestSvg: `${base}images/logo-crest.svg`,
   guard: `${base}images/guard.jpg`,
+  /** Still from landing hero film — used as LCP poster. */
+  heroFrame: `${base}images/hero-frame.jpg`,
   collage: `${base}images/collage.jpg`,
   careersHero: `${base}images/careers-hero.jpg`,
   services: `${base}images/services.jpg`,
