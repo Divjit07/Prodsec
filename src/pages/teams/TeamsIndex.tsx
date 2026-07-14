@@ -24,9 +24,10 @@ export default function TeamsIndex() {
         // lines. This is a complete sentence and wraps cleanly.
         title="We align leadership, officers, and patrol rhythm to your account."
         description="Effective security is not headcount alone. Account direction, field supervision, and patrol design work together, so the standard holds at 2 a.m. on a Tuesday exactly as it does in a Monday board review. Choose the mix that matches your risk, your hours, and how your property actually runs."
-        imageSrc={brandImages.teamsCollage}
-        imageAlt="Productive Security officers on patrol, briefing, and in the field"
-        objectClass="object-[50%_45%]"
+        imageSrc={brandImages.teamPortrait}
+        imageAlt="The Productive Security team"
+        // Supervisor is front-row centre, so the crop is biased low.
+        objectClass="object-[50%_58%]"
         minHeightClass="min-h-[min(52svh,380px)] sm:min-h-[min(58svh,460px)] lg:min-h-[min(84svh,760px)]"
         actions={
           <Link
