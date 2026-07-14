@@ -19,7 +19,7 @@ export default function TeamsIndex() {
       <ImageHero
         eyebrow="Deployment model"
         title="The right leader, officer, and patrol rhythm—aligned to your account."
-        description="Effective security is not headcount alone. Account direction, field supervision, and patrol design work together so standards hold on Tuesday night the same way they do on a Tuesday morning board meeting."
+        description="Effective security is not headcount alone. Account direction, field supervision, and patrol design work together so standards hold on Tuesday night the same way they do on a Tuesday morning board meeting. Choose the mix that matches your risk, hours, and how your property actually runs."
         imageSrc={brandImages.collage}
         imageAlt="Productive Security team members and operations"
         objectClass="object-[50%_38%] sm:object-[50%_42%]"

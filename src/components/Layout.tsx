@@ -35,7 +35,7 @@ function Crest({ className = "h-16" }: { className?: string }) {
 function MapleLeaf({ className = "h-3.5 w-3.5" }: { className?: string }) {
   return (
     <img
-      src={`${import.meta.env.BASE_URL}images/maple-leaf.png`}
+      src={brandImages.mapleLeaf}
       alt=""
       aria-hidden
       className={`inline-block shrink-0 object-contain ${className}`}
