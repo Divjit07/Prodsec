@@ -633,13 +633,14 @@ export default function Home() {
               </div>
             </dl>
           </div>
-          <div className="overflow-hidden rounded-xl border border-white/[0.07] lg:col-span-8">
+          <div className="overflow-hidden rounded-xl border border-white/[0.07] bg-brand-surface lg:col-span-8">
             <iframe
               title="Map — Productive Security, 18 Wynford Drive, Toronto"
-              className="map-dark h-[300px] w-full sm:h-[360px]"
+              className="block h-[300px] w-full border-0 sm:h-[360px]"
               loading="lazy"
+              allowFullScreen
               referrerPolicy="no-referrer-when-downgrade"
-              src="https://www.google.com/maps?q=18%20Wynford%20Drive%20Toronto&output=embed"
+              src="https://www.google.com/maps?q=18+Wynford+Drive,+North+York,+ON+M3C+3S2&hl=en&z=15&t=m&output=embed"
             />
           </div>
         </Container>

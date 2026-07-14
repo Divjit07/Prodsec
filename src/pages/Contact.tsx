@@ -186,13 +186,14 @@ export default function Contact() {
               </form>
             </Reveal>
 
-            <Reveal delay={0.06} className="mt-6 overflow-hidden rounded-2xl border border-brand-border shadow-card">
+            <Reveal delay={0.06} className="mt-6 overflow-hidden rounded-2xl border border-brand-border bg-brand-surface shadow-card">
               <iframe
                 title="Map — 18 Wynford Drive, Toronto"
-                className="h-[320px] w-full"
+                className="block h-[320px] w-full border-0"
                 loading="lazy"
+                allowFullScreen
                 referrerPolicy="no-referrer-when-downgrade"
-                src="https://www.google.com/maps?q=18%20Wynford%20Drive%20Toronto&output=embed"
+                src="https://www.google.com/maps?q=18+Wynford+Drive,+North+York,+ON+M3C+3S2&hl=en&z=15&t=m&output=embed"
               />
             </Reveal>
           </div>

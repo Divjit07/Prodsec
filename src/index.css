@@ -120,13 +120,6 @@ body {
   background: linear-gradient(to right, transparent, var(--line-strong), transparent);
 }
 
-/* Google's embed has no dark theme. Invert + hue-rotate flips it to a dark map
-   while sending the hues back to roughly where they started, so parks stay green
-   and water stays blue. No grayscale — that is what drained the colour out. */
-.map-dark {
-  filter: invert(0.92) hue-rotate(180deg) brightness(0.95) contrast(0.95) saturate(1.35);
-}
-
 /* Home facts strip — duplicated track so the loop has no gap. */
 @keyframes facts-marquee-scroll {
   from {

@@ -113,13 +113,13 @@ export default function ServicesIndex() {
 
       <section className="border-b border-white/10 dot-bg bg-brand-surface">
         <Container className="px-4 py-12 sm:px-6 sm:py-14">
-          <div className="mx-auto max-w-3xl text-center lg:mx-0 lg:max-w-2xl lg:text-left">
+          <div className="mx-auto max-w-3xl text-center">
             <p className="text-sm leading-relaxed text-brand-muted sm:text-base">
               Each environment carries different liabilities: retail shrink and de-escalation, condominium hospitality
               standards, construction perimeter control, healthcare privacy expectations, and event crowd dynamics. Our
               teams are staffed, trained, and supervised with those realities in mind.
             </p>
-            <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
+            <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link
                 to="/quote"
                 className="inline-flex rounded-md bg-white px-5 py-2.5 text-sm font-semibold text-brand-ink shadow-sm transition hover:bg-white/95"
@@ -139,7 +139,7 @@ export default function ServicesIndex() {
 
       <Container className="px-4 pb-16 pt-12 sm:px-6">
         <Reveal>
-          <div className="max-w-2xl">
+          <div className="mx-auto max-w-2xl text-center">
             <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-brand-muted">Sector spotlights</p>
             <h2 className="mt-2 font-display text-3xl tracking-wide text-white sm:text-4xl">
               See how we deploy in each environment
