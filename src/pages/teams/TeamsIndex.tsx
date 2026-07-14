@@ -18,11 +18,13 @@ export default function TeamsIndex() {
 
       <ImageHero
         eyebrow="Deployment model"
-        title="The right leader, officer, and patrol rhythm—aligned to your account."
-        description="Effective security is not headcount alone. Account direction, field supervision, and patrol design work together so standards hold on Tuesday night the same way they do on a Tuesday morning board meeting. Choose the mix that matches your risk, hours, and how your property actually runs."
+        // Was a fragment with a dangling em dash that broke across six ragged
+        // lines. This is a complete sentence and wraps cleanly.
+        title="We align leadership, officers, and patrol rhythm to your account."
+        description="Effective security is not headcount alone. Account direction, field supervision, and patrol design work together, so the standard holds at 2 a.m. on a Tuesday exactly as it does in a Monday board review. Choose the mix that matches your risk, your hours, and how your property actually runs."
         imageSrc={brandImages.collage}
-        imageAlt="Productive Security team members and operations"
-        objectClass="object-[50%_38%] sm:object-[50%_42%]"
+        imageAlt="Productive Security officers on patrol and in the field"
+        objectClass="object-[50%_42%]"
         actions={
           <Link
             to="/quote"

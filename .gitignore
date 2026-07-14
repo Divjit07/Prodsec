@@ -28,3 +28,5 @@ dist-ssr
 
 # Portable Node (local bootstrap)
 .tools/
+
+testsprite_tests/tmp/config.json

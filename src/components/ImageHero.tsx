@@ -38,9 +38,12 @@ export function ImageHero({
 
   return (
     <section ref={ref} className="border-b border-white/10 dot-bg bg-brand-surface">
-      <Container className="px-4 py-10 sm:px-6 lg:py-0">
-        <div className="grid items-stretch gap-8 lg:grid-cols-12 lg:gap-0">
-          <div className="flex flex-col justify-center lg:col-span-5 lg:py-20 lg:pr-10 xl:pr-14">
+      {/* Vertical padding on every breakpoint. Without it the photo column ran to
+          the top of the page and slid under the translucent sticky header, which
+          smeared the header's blur across the image. */}
+      <Container className="px-4 py-12 sm:px-6 lg:py-16">
+        <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
+          <div className="flex flex-col justify-center lg:col-span-6">
             <Rise immediate>
               <p className="flex items-center gap-4 font-display text-eyebrow font-bold uppercase text-brand-accent">
                 <span aria-hidden className="h-px w-8 bg-brand-accent/60" />
@@ -51,7 +54,7 @@ export function ImageHero({
               as="h1"
               immediate
               delay={0.12}
-              className="mt-5 font-display text-d2 font-extrabold text-white"
+              className="mt-6 max-w-xl text-balance font-display text-[clamp(1.875rem,1.15rem+2.3vw,2.75rem)] font-extrabold leading-[1.08] tracking-[-0.03em] text-white"
             >
               {title}
             </AnimatedText>
@@ -65,7 +68,11 @@ export function ImageHero({
             </Rise>
           </div>
 
-          <div className={`relative overflow-hidden rounded-2xl lg:col-span-7 lg:rounded-none ${minHeightClass}`}>
+          {/* A framed panel, not a full bleed — it reads as a deliberate plate
+              rather than a photo escaping the layout. */}
+          <div
+            className={`relative overflow-hidden rounded-2xl shadow-lift ring-1 ring-white/[0.08] lg:col-span-6 ${minHeightClass}`}
+          >
             <motion.img
               src={imageSrc}
               alt={imageAlt}
@@ -78,7 +85,7 @@ export function ImageHero({
             />
             <div
               aria-hidden
-              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-surface/40 via-transparent to-transparent lg:bg-gradient-to-r lg:from-brand-surface lg:from-[0%] lg:via-brand-surface/20 lg:via-8% lg:to-transparent"
+              className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-navy-950/55 via-transparent to-brand-navy-950/10"
             />
           </div>
         </div>

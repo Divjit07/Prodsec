@@ -16,7 +16,7 @@ export default function CareersHome() {
 
       <ImageHero
         eyebrow="Careers"
-        title="Build a career with purpose—and support behind you."
+        title="Build a career with purpose, and real support behind you."
         description="We invest in training, promote from within where possible, and keep communication honest when schedules get demanding. If you value professionalism on shift and leadership that shows up when it counts, we would like to meet you."
         imageSrc={brandImages.careersHero}
         imageAlt="Productive Security careers and team environment"
