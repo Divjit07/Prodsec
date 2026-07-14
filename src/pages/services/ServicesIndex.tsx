@@ -5,6 +5,8 @@ import { Container } from "../../components/Container";
 import { Reveal } from "../../components/Reveal";
 import { services, type ServiceSlug } from "../../data/services";
 import { Slideshow } from "../../components/Slideshow";
+import { AnimatedText, Rise } from "../../components/AnimatedText";
+import { EASE } from "../../lib/motion";
 
 /** Short uppercase labels for the sector stack (reference-style rail). */
 const sectorRailLabel: Record<ServiceSlug, string> = {
@@ -31,15 +33,31 @@ export default function ServicesIndex() {
           <div className="grid gap-10 lg:grid-cols-12 lg:gap-0 lg:items-stretch">
             <div className="flex flex-col justify-between lg:col-span-5 lg:border-r lg:border-white/10 lg:pr-8 xl:pr-12">
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-brand-muted">
+                <p className="flex items-center gap-4 font-display text-eyebrow font-bold uppercase text-brand-accent">
+                  <span aria-hidden className="h-px w-8 bg-brand-accent/60" />
                   Service lines
                 </p>
-                <h1 className="mt-3 max-w-lg font-display text-[2rem] font-extrabold leading-[1.05] tracking-[-0.02em] text-white sm:text-5xl sm:leading-[1.02]">
+
+                <AnimatedText
+                  as="h1"
+                  immediate
+                  delay={0.08}
+                  className="mt-6 max-w-xl font-display text-d2 font-extrabold text-white"
+                >
                   Programs built for your sector
-                  <span className="mt-1 block font-semibold text-white/75 sm:mt-2">
-                    Not recycled post orders
-                  </span>
-                </h1>
+                </AnimatedText>
+
+                {/* The old second line was a fragment ("Not recycled post orders").
+                    A full sentence carries the same claim and fills the column. */}
+                <Rise immediate delay={0.3}>
+                  <p className="mt-6 max-w-md text-lede text-brand-text2">
+                    Every post order is written for the site it protects — never recycled from the last one.
+                  </p>
+                  <p className="mt-4 max-w-md text-sm leading-relaxed text-brand-muted">
+                    Staffing, training emphasis, and supervision cadence are set by the sector you operate in, and by
+                    how your property actually runs.
+                  </p>
+                </Rise>
 
                 <nav className="mt-10" aria-label="Security programs by sector">
                   <ul className="divide-y divide-white/10 border-y border-white/10">
@@ -48,18 +66,25 @@ export default function ServicesIndex() {
                         key={s.slug}
                         initial={{ opacity: 0, x: -8 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.04 * idx, duration: 0.35 }}
+                        transition={{ delay: 0.35 + 0.05 * idx, duration: 0.5, ease: EASE }}
                       >
                         <Link
                           to={`/services/${s.slug}`}
-                          className="group flex items-center justify-between gap-4 py-3.5 transition sm:py-4"
+                          className="group relative flex items-center justify-between gap-4 overflow-hidden rounded-full px-4 py-3.5 sm:py-4"
                         >
-                          <span className="font-display text-[1.35rem] uppercase leading-none tracking-[0.08em] text-white drop-shadow-[0_1px_14px_rgba(0,0,0,0.5)] sm:text-2xl sm:tracking-[0.1em]">
+                          {/* The pill wipes in from the left rather than fading —
+                              a wipe reads as deliberate, a fade reads as a hover
+                              state nobody thought about. */}
+                          <span
+                            aria-hidden
+                            className="absolute inset-0 origin-left scale-x-0 rounded-full bg-brand-accent transition-transform duration-[600ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-x-100 group-focus-visible:scale-x-100"
+                          />
+                          <span className="relative font-display text-[1.35rem] uppercase leading-none tracking-[0.08em] text-white transition-colors duration-300 group-hover:text-ink-950 group-focus-visible:text-ink-950 sm:text-2xl sm:tracking-[0.1em]">
                             {sectorRailLabel[s.slug]}
                           </span>
                           <span
-                            className="shrink-0 font-display text-lg text-brand-yellow/0 transition group-hover:text-brand-yellow/90"
                             aria-hidden
+                            className="relative shrink-0 font-display text-lg text-brand-accent/0 transition-all duration-300 group-hover:translate-x-1 group-hover:text-ink-950 group-focus-visible:text-ink-950"
                           >
                             →
                           </span>
