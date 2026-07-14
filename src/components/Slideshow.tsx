@@ -17,9 +17,28 @@ const GALLERY = Object.entries(
   }),
 )
   .sort(([a], [b]) => a.localeCompare(b))
-  .map(([, url]) => url);
+  .map(([path, url]) => ({ url, focal: focalFor(path) }));
 
-const SLIDE_MS = 5000;
+/**
+ * Focal point per photo, matched on filename.
+ *
+ * These are tall portraits dropped into a wide panel, so object-cover throws
+ * away most of the height — and *which* part it keeps decides whether you see a
+ * face or a torso. One shared value cannot serve both a single-officer portrait
+ * (subject high in frame) and the team photo (the supervisor is front row,
+ * low in frame — a top-biased crop cuts him out entirely).
+ */
+function focalFor(path: string) {
+  if (path.includes("team-portrait")) return "50% 58%"; // supervisor sits front-row centre
+  if (path.includes("supervisor-portrait")) return "50% 20%";
+  if (path.includes("patrol-portrait")) return "50% 20%";
+  if (path.includes("officers-on-patrol")) return "50% 32%";
+  return "50% 35%";
+}
+
+/** Fast enough to feel alive, slow enough to actually read the photo. */
+const SLIDE_MS = 3400;
+const FADE_S = 0.8;
 
 type SlideshowProps = {
   className?: string;
@@ -65,7 +84,7 @@ export function Slideshow({ className = "", alt, overlayClassName }: SlideshowPr
   useEffect(() => {
     if (count < 2) return;
     const next = new Image();
-    next.src = GALLERY[(index + 1) % count];
+    next.src = GALLERY[(index + 1) % count].url;
   }, [index, count]);
 
   if (count === 0) return null;
@@ -74,7 +93,12 @@ export function Slideshow({ className = "", alt, overlayClassName }: SlideshowPr
   if (reduce || count === 1) {
     return (
       <div ref={containerRef} className={`relative overflow-hidden ${className}`}>
-        <img src={GALLERY[0]} alt={alt} className="absolute inset-0 h-full w-full object-cover object-[50%_26%]" />
+        <img
+          src={GALLERY[0].url}
+          alt={alt}
+          className="absolute inset-0 h-full w-full object-cover"
+          style={{ objectPosition: GALLERY[0].focal }}
+        />
         {overlayClassName ? <div aria-hidden className={`pointer-events-none absolute inset-0 ${overlayClassName}`} /> : null}
       </div>
     );
@@ -94,18 +118,19 @@ export function Slideshow({ className = "", alt, overlayClassName }: SlideshowPr
           // Keying on the index is what makes AnimatePresence crossfade: the
           // outgoing image stays mounted and fades while the new one fades up.
           key={index}
-          src={GALLERY[index]}
+          src={GALLERY[index].url}
           alt=""
           aria-hidden
-          className="absolute inset-0 h-full w-full object-cover object-[50%_26%] will-change-transform"
-          initial={{ opacity: 0, scale: 1.06 }}
-          animate={{ opacity: 1, scale: 1.12 }}
+          className="absolute inset-0 h-full w-full object-cover will-change-transform"
+          style={{ objectPosition: GALLERY[index].focal }}
+          initial={{ opacity: 0, scale: 1.04 }}
+          animate={{ opacity: 1, scale: 1.09 }}
           exit={{ opacity: 0 }}
           transition={{
-            // Long fade, and a slow push in across the whole hold — the drift is
-            // what stops a still photo from feeling like a dead rectangle.
-            opacity: { duration: 1.2, ease: EASE },
-            scale: { duration: SLIDE_MS / 1000 + 1.4, ease: "linear" },
+            // A gentle push in across the hold — enough that a still photo does
+            // not read as a dead rectangle, not so much that it swims.
+            opacity: { duration: FADE_S, ease: EASE },
+            scale: { duration: SLIDE_MS / 1000 + FADE_S, ease: "linear" },
           }}
         />
       </AnimatePresence>
@@ -114,9 +139,9 @@ export function Slideshow({ className = "", alt, overlayClassName }: SlideshowPr
 
       {/* Indicators double as a progress read-out for the current slide. */}
       <div className="absolute bottom-4 left-4 right-4 z-10 flex gap-1.5 sm:bottom-5 sm:left-5 sm:right-5">
-        {GALLERY.map((src, i) => (
+        {GALLERY.map((slide, i) => (
           <button
-            key={src}
+            key={slide.url}
             type="button"
             onClick={() => setIndex(i)}
             className="group/bar relative h-0.5 flex-1 overflow-hidden bg-white/25 transition-colors hover:bg-white/40"
