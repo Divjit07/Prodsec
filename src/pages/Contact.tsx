@@ -114,6 +114,14 @@ export default function Contact() {
                     </div>
                   </li>
                   <li>
+                    <span className="text-white">Naeem Khan</span> — IT Services
+                    <div>
+                      <a className="hover:text-white" href="mailto:nkhan@prodsec.ca">
+                        nkhan@prodsec.ca
+                      </a>
+                    </div>
+                  </li>
+                  <li>
                     <span className="text-white">Emy T.</span> — Admin Manager
                     <div>
                       <a className="hover:text-white" href="mailto:emy@prodsec.ca">
