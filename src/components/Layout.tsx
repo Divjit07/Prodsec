@@ -68,6 +68,80 @@ function StripStars() {
   );
 }
 
+/** Small line icons for mobile nav sections — not photos, just marks. */
+function NavIcon({ kind }: { kind: string }) {
+  const common = "h-[18px] w-[18px]";
+  const stroke = { fill: "none", stroke: "currentColor", strokeWidth: 1.5, strokeLinecap: "round" as const, strokeLinejoin: "round" as const };
+  switch (kind) {
+    case "about":
+      return (
+        <svg viewBox="0 0 24 24" className={common} aria-hidden>
+          <circle cx="12" cy="12" r="9" {...stroke} />
+          <path d="M12 11v5M12 8h.01" {...stroke} />
+        </svg>
+      );
+    case "services":
+      return (
+        <svg viewBox="0 0 24 24" className={common} aria-hidden>
+          <path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" {...stroke} />
+        </svg>
+      );
+    case "teams":
+      return (
+        <svg viewBox="0 0 24 24" className={common} aria-hidden>
+          <circle cx="9" cy="8" r="3" {...stroke} />
+          <circle cx="17" cy="9" r="2.5" {...stroke} />
+          <path d="M3.5 19c1-3.2 3.2-5 5.5-5s4.5 1.8 5.5 5M14 14c1.8.2 3.4 1.3 4.5 5" {...stroke} />
+        </svg>
+      );
+    case "careers":
+      return (
+        <svg viewBox="0 0 24 24" className={common} aria-hidden>
+          <path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h5A1.5 1.5 0 0 1 16 5.5V7" {...stroke} />
+          <rect x="4" y="7" width="16" height="13" rx="2" {...stroke} />
+          <path d="M4 12h16" {...stroke} />
+        </svg>
+      );
+    case "insights":
+      return (
+        <svg viewBox="0 0 24 24" className={common} aria-hidden>
+          <path d="M7 4h7l5 5v11a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1z" {...stroke} />
+          <path d="M14 4v5h5M9 13h6M9 17h4" {...stroke} />
+        </svg>
+      );
+    case "contact":
+      return (
+        <svg viewBox="0 0 24 24" className={common} aria-hidden>
+          <path d="M6.5 4.5h3l1.5 4-2 1.2a12 12 0 0 0 5.3 5.3l1.2-2 4 1.5v3A2 2 0 0 1 17.5 19.5 14 14 0 0 1 4.5 6.5a2 2 0 0 1 2-2z" {...stroke} />
+        </svg>
+      );
+    default:
+      return (
+        <svg viewBox="0 0 24 24" className={common} aria-hidden>
+          <circle cx="12" cy="12" r="3" {...stroke} />
+        </svg>
+      );
+  }
+}
+
+function navKind(group: NavGroup) {
+  if (group.to.includes("/about")) return "about";
+  if (group.to.includes("/services")) return "services";
+  if (group.to.includes("/teams")) return "teams";
+  if (group.to.includes("/careers")) return "careers";
+  if (group.to.includes("/blog")) return "insights";
+  if (group.to.includes("/contact")) return "contact";
+  return "default";
+}
+
+function LeafChevron() {
+  return (
+    <svg viewBox="0 0 16 16" className="h-3 w-3 shrink-0 text-brand-accent/80" aria-hidden>
+      <path d="M6 3.5 10.5 8 6 12.5" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 /** Underline that wipes in from the left on hover, and stays put when active. */
 function NavUnderline({ active }: { active: boolean }) {
   return (
@@ -330,7 +404,7 @@ export function Layout() {
         </div>
       </header>
 
-      {/* Mobile sheet: a real grouped list, not a cloud of pills. */}
+      {/* Mobile sheet: labeled sections with icons — titles vs links are unmistakable. */}
       <AnimatePresence>
         {mobileOpen ? (
           <motion.div
@@ -339,67 +413,98 @@ export function Layout() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="dot-bg fixed inset-x-0 bottom-0 top-16 z-[70] overflow-y-auto overscroll-contain bg-ink-950 lg:hidden"
+            className="dot-bg fixed inset-x-0 bottom-0 top-[4.5rem] z-[70] overflow-y-auto overscroll-contain bg-ink-950 sm:top-20 lg:hidden"
           >
             <motion.nav
-              className="mx-auto max-w-7xl px-4 py-6 sm:px-6"
+              className="mx-auto max-w-7xl space-y-4 px-4 py-6 sm:px-6"
               aria-label="Mobile"
               initial="hidden"
               animate="show"
-              variants={{ show: { transition: { staggerChildren: 0.06, delayChildren: 0.08 } } }}
+              variants={{ show: { transition: { staggerChildren: 0.05, delayChildren: 0.06 } } }}
             >
-              {primaryNav.map((group) => (
-                <motion.div
-                  key={group.to}
-                  className="border-b border-white/[0.07] py-5 first:pt-0"
-                  variants={{
-                    hidden: { opacity: 0, y: 20 },
-                    show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
-                  }}
-                >
-                  <NavLink to={group.to} className="block font-display text-3xl font-extrabold text-white">
-                    {group.label}
-                  </NavLink>
-                  {group.children ? (
-                    <div className="mt-3 grid gap-x-4 gap-y-1 sm:grid-cols-2">
-                      {group.children.map((leaf) => (
-                        <NavLink
-                          key={leaf.to}
-                          to={leaf.to}
-                          className={({ isActive }) =>
-                            `-mx-2 rounded px-2 py-2 text-[0.9375rem] transition-colors duration-300 ${
-                              isActive ? "text-white" : "text-white/90 hover:text-white"
-                            }`
-                          }
-                        >
-                          {leaf.label}
-                        </NavLink>
-                      ))}
-                    </div>
-                  ) : null}
-                </motion.div>
-              ))}
+              {primaryNav.map((group, idx) => {
+                const kind = navKind(group);
+                return (
+                  <motion.section
+                    key={group.to}
+                    className="overflow-hidden rounded-2xl border border-white/[0.08] bg-ink-900/70"
+                    variants={{
+                      hidden: { opacity: 0, y: 16 },
+                      show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
+                    }}
+                  >
+                    <NavLink
+                      to={group.to}
+                      className="flex items-center gap-3 border-b border-white/[0.06] px-4 py-3.5"
+                    >
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-accent/10 text-brand-accent ring-1 ring-brand-accent/25">
+                        <NavIcon kind={kind} />
+                      </span>
+                      <span className="min-w-0 flex-1">
+                        <span className="block font-display text-[0.625rem] font-bold uppercase tracking-[0.22em] text-brand-accent">
+                          {String(idx + 1).padStart(2, "0")} · Section
+                        </span>
+                        <span className="mt-1 block font-display text-xl font-extrabold tracking-tight text-white">
+                          {group.label}
+                        </span>
+                      </span>
+                      <LeafChevron />
+                    </NavLink>
+
+                    {group.children ? (
+                      <ul className="divide-y divide-white/[0.05] px-2 py-1.5">
+                        {group.children.map((leaf) => (
+                          <li key={leaf.to}>
+                            <NavLink
+                              to={leaf.to}
+                              className={({ isActive }) =>
+                                `flex items-start gap-3 rounded-xl px-3 py-3 transition-colors duration-300 ${
+                                  isActive ? "bg-white/[0.06]" : "hover:bg-white/[0.04]"
+                                }`
+                              }
+                            >
+                              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-accent/70" />
+                              <span className="min-w-0 flex-1">
+                                <span className="block text-[0.9375rem] font-medium text-white">{leaf.label}</span>
+                                {leaf.hint ? (
+                                  <span className="mt-0.5 block text-xs leading-snug text-brand-muted">{leaf.hint}</span>
+                                ) : null}
+                              </span>
+                              <LeafChevron />
+                            </NavLink>
+                          </li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="px-4 py-3 text-xs leading-relaxed text-brand-muted">
+                        Open {group.label.toLowerCase()} for the full overview.
+                      </p>
+                    )}
+                  </motion.section>
+                );
+              })}
 
               <motion.div
-                className="mt-10 space-y-3 pb-12"
+                className="space-y-3 pb-12 pt-2"
                 variants={{
-                  hidden: { opacity: 0, y: 20 },
-                  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE } },
+                  hidden: { opacity: 0, y: 16 },
+                  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: EASE } },
                 }}
               >
                 <Link
                   to={ctaNav.to}
-                  className="flex items-center justify-center bg-white py-3.5 font-display text-caps font-bold uppercase text-ink-950 transition-transform duration-300 active:scale-[0.98]"
+                  className="flex items-center justify-center gap-2 rounded-xl bg-white py-3.5 font-display text-caps font-bold uppercase text-ink-950 transition-transform duration-300 active:scale-[0.98]"
                 >
                   {ctaNav.label}
                 </Link>
                 <a
                   href={phone.href}
-                  className="flex items-center justify-center border border-white/15 py-3.5 font-display text-caps font-bold uppercase tabular-nums text-white transition-colors duration-300 hover:border-white/40"
+                  className="flex items-center justify-center gap-2 rounded-xl border border-white/15 py-3.5 font-display text-caps font-bold uppercase tabular-nums text-white transition-colors duration-300 hover:border-white/40"
                 >
+                  <NavIcon kind="contact" />
                   {phone.display}
                 </a>
-                <p className="pt-3 text-center font-sans text-xs tracking-wide text-brand-muted">
+                <p className="pt-2 text-center font-sans text-xs tracking-wide text-brand-muted">
                   Operations desk answers 24/7
                 </p>
               </motion.div>

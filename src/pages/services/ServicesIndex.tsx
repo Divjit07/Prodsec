@@ -4,7 +4,7 @@ import { SeoHead } from "../../components/SeoHead";
 import { Container } from "../../components/Container";
 import { Reveal } from "../../components/Reveal";
 import { services, type ServiceSlug } from "../../data/services";
-import { brandImages } from "../../data/brandAssets";
+import { Slideshow } from "../../components/Slideshow";
 
 /** Short uppercase labels for the sector stack (reference-style rail). */
 const sectorRailLabel: Record<ServiceSlug, string> = {
@@ -76,20 +76,11 @@ export default function ServicesIndex() {
             </div>
 
             <div className="flex flex-col lg:col-span-7 lg:pl-6 xl:pl-10">
-              <div className="relative min-h-[min(48vh,380px)] flex-1 overflow-hidden rounded-2xl bg-brand-dark shadow-lift ring-1 ring-white/[0.07] lg:min-h-[min(560px,calc(100dvh-10rem))]">
-                <img
-                  src={brandImages.guard}
-                  alt="Productive Security officers on patrol"
-                  className="absolute inset-0 h-full w-full object-cover object-center"
-                  width={857}
-                  height={730}
-                  loading="eager"
-                />
-                <div
-                  className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-navy-950/50 via-transparent to-brand-navy-950/15"
-                  aria-hidden
-                />
-              </div>
+              <Slideshow
+                alt="Productive Security officers on patrol across Ontario"
+                className="min-h-[min(48vh,380px)] flex-1 rounded-2xl bg-brand-dark shadow-lift ring-1 ring-white/[0.07] lg:min-h-[min(560px,calc(100dvh-10rem))]"
+                overlayClassName="bg-gradient-to-t from-brand-navy-950/60 via-transparent to-brand-navy-950/15"
+              />
             </div>
           </div>
         </Container>

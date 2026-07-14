@@ -127,6 +127,30 @@ body {
   filter: invert(0.92) hue-rotate(180deg) brightness(0.95) contrast(0.95) saturate(1.35);
 }
 
+/* Home facts strip — duplicated track so the loop has no gap. */
+@keyframes facts-marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.facts-marquee-track {
+  animation: facts-marquee-scroll 42s linear infinite;
+}
+
+.facts-marquee:hover .facts-marquee-track {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .facts-marquee-track {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

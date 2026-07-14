@@ -16,6 +16,19 @@ import { siteUrl } from "../data/site";
 const HERO_VIDEO_SRC = `${import.meta.env.BASE_URL}media/landing-hero.mp4`;
 const HERO_POSTER = brandImages.guard;
 
+const factTicker = [
+  "Established 1997",
+  "120+ service professionals",
+  "Ontario-wide coverage",
+  "24/7 operations desk",
+  "Six sectors. One standard.",
+  "Field-supervised every shift",
+  "Incident reports you can defend",
+  "Licensed · Bonded · Ready",
+  "Toronto headquartered",
+  "Safe. Secure. Productive.",
+];
+
 const principles = [
   { t: "People", d: "Respect-first presence: firm when policy requires it, professional when the public is watching." },
   { t: "Quality", d: "Published standards for arrival, appearance, handoffs, and reporting — audited by supervision." },
@@ -254,6 +267,35 @@ export default function Home() {
         )}
       </section>
 
+      {/* ---------------------------------------------------- Facts marquee strip
+          Grey band between film and statement — cool facts on a slow loop. */}
+      <div className="facts-marquee relative overflow-hidden border-y border-black/10 bg-[#d8d8d8] text-ink-950">
+        <div className="facts-marquee-track flex w-max items-center gap-0 py-3.5 sm:py-4">
+          {[0, 1].map((copy) => (
+            <ul
+              key={copy}
+              className="flex shrink-0 items-center gap-8 px-4 sm:gap-12 sm:px-6"
+              aria-hidden={copy === 1}
+            >
+              {factTicker.map((fact) => (
+                <li
+                  key={`${copy}-${fact}`}
+                  className="flex shrink-0 items-center gap-8 sm:gap-12"
+                >
+                  <span className="whitespace-nowrap font-display text-[0.6875rem] font-extrabold uppercase tracking-[0.28em] sm:text-xs sm:tracking-[0.32em]">
+                    {fact}
+                  </span>
+                  <span
+                    aria-hidden
+                    className="inline-block h-1.5 w-1.5 rotate-45 bg-[#d32025] sm:h-2 sm:w-2"
+                  />
+                </li>
+              ))}
+            </ul>
+          ))}
+        </div>
+      </div>
+
       {/* ------------------------------------------------------------ Statement
           On mobile this IS the hero copy — it sits straight under the film, so
           the top padding is tight. On desktop it is a section in its own right. */}
@@ -410,8 +452,8 @@ export default function Home() {
       {/* ---------------------------------------------------------- Principles */}
       <section className="dot-bg-soft border-y border-white/[0.07] bg-ink-900">
         <Container className="py-20 lg:py-28">
-          <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-14">
-            <div className="lg:col-span-6">
+          <div className="grid items-start gap-8 lg:grid-cols-12 lg:gap-10">
+            <div className="lg:col-span-5 lg:-mt-1">
               <Rise>
                 <Eyebrow>Operating principles</Eyebrow>
               </Rise>
@@ -434,10 +476,10 @@ export default function Home() {
 
             {/* The photo scales down into place rather than sliding — it reads as
                 the image settling, not as a card flying in. */}
-            <Rise className="lg:col-span-6" delay={0.15}>
+            <Rise className="lg:col-span-7" delay={0.15}>
               <motion.figure
-                className="overflow-hidden rounded-2xl border border-white/10 shadow-lift"
-                initial={reduce ? false : { scale: 1.08 }}
+                className="overflow-hidden rounded-2xl border border-white/10 shadow-lift lg:-mt-2"
+                initial={reduce ? false : { scale: 1.06 }}
                 whileInView={reduce ? undefined : { scale: 1 }}
                 viewport={{ once: true, margin: "-10% 0px" }}
                 transition={{ duration: 1.2, ease: EASE }}
@@ -445,7 +487,7 @@ export default function Home() {
                 <img
                   src={brandImages.principlesFeature}
                   alt="Productive Security officers on patrol and operations"
-                  className="aspect-[16/9] w-full object-cover object-center"
+                  className="aspect-[16/9] w-full min-h-[14rem] object-cover object-center sm:min-h-[18rem] lg:min-h-[24rem]"
                   width={1024}
                   height={572}
                   loading="lazy"
