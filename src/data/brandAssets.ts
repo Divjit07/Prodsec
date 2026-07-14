@@ -13,10 +13,16 @@
  * `public/` now holds only what needs a stable, externally-addressable URL:
  * favicons, robots/sitemap, the OG cover, and the hero film.
  */
+import cardCloseup from "../assets/img/card-closeup.jpg";
 import careersHero from "../assets/img/careers-hero.jpg";
 import collage from "../assets/img/collage.jpg";
 import guard from "../assets/img/guard.jpg";
 import heroFrame from "../assets/img/hero-frame.jpg";
+import officersOnPatrol from "../assets/img/officers-on-patrol.jpg";
+import patrolPortrait from "../assets/img/patrol-portrait.jpg";
+import supervisorPortrait from "../assets/img/supervisor-portrait.jpg";
+import teamPortrait from "../assets/img/team-portrait.jpg";
+import teamsCollage from "../assets/img/teams-collage.jpg";
 import logoCrest from "../assets/img/logo-crest.png";
 import logoCrestSvg from "../assets/img/logo-crest.svg";
 import logoMark from "../assets/img/logo-mark.png";
@@ -49,6 +55,14 @@ export const brandImages = {
   collage,
   careersHero,
   services: servicesPhoto,
+  /** Teams hero — six-panel field collage. */
+  teamsCollage,
+  /** Cards for the team spread, fanned back-to-front. */
+  officersOnPatrol,
+  supervisorPortrait,
+  teamPortrait,
+  patrolPortrait,
+  cardCloseup,
   /** Home / services sector card photography. */
   serviceCommercial,
   serviceConstruction,
